@@ -4,7 +4,7 @@
 
 *An open source system for flashcard studying.*
 
-*Inspired by the larger sites that are now charging for core functionality, Scholarsome intends to be a drop-in replacement for any study workflow.*
+*Inspired by the larger sites that are now charging for core functionality, Sholarsome intends to be a drop-in replacement for any study workflow.*
 
 https://scholarsome.com
 

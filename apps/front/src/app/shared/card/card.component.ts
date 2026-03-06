@@ -16,7 +16,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { DomSanitizer } from "@angular/platform-browser";
 import { ViewportScroller } from "@angular/common";
 import { DeviceDetectorService } from "ngx-device-detector";
-import Quill from "quill";
+import * as Quill from "quill";
 
 @Component({
   selector: "scholarsome-card",

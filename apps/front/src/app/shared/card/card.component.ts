@@ -156,7 +156,7 @@ export class CardComponent implements OnInit, AfterViewInit {
   }
 
   // Set cursor position to end
-  focusEditor($event: Quill) {
+  focusEditor($event: any) {
     $event.setSelection($event.getLength(), 0);
   }
 }

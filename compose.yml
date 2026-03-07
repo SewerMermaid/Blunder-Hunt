@@ -3,7 +3,7 @@ services:
   redis:
     image: redis:latest
     expose:
-      - "6379:6379"
+      - "6379"
     command: >
       redis-server
       --save 900 1
@@ -17,7 +17,7 @@ services:
   mariadb:
     image: mariadb:latest
     expose:
-      - "3306:3306"
+      - "3306"
     environment:
       - "MARIADB_RANDOM_ROOT_PASSWORD=yes"
       - "MARIADB_ROOT_HOST=localhost"
@@ -56,8 +56,8 @@ services:
       - "HOST=${HOST}"
       - "SSL_KEY_BASE64=${SSL_KEY_BASE64}"
       - "SSL_CERT_BASE64=${SSL_CERT_BASE64}"
-      - "SCHOLARSOME_RECAPTCHA_SITE=${RECAPTCHA_SITE}"
-      - "SCHOLARSOME_RECAPTCHA_SECRET=${RECAPTCHA_SECRET}"
+      - "NG_APP_RECAPTCHA_SITE=${RECAPTCHA_SITE}"
+      - "NG_APP_RECAPTCHA_SECRET=${RECAPTCHA_SECRET}"
     volumes:
       - scholarsome:/data
     depends_on:

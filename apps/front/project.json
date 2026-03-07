@@ -33,7 +33,7 @@
           "node_modules/katex/dist/katex.min.js"
         ],
         "ngxEnv": {
-          "prefix": "SCHOLARSOME_"
+          "prefix": "NG_APP_"
         },
         "allowedCommonJsDependencies": ["@prisma/client", "validator"]
       },

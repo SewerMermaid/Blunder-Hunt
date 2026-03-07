@@ -12,6 +12,7 @@ RUN npm rebuild sharp --build-from-source
 
 COPY . .
 RUN npm run generate
+ENV NG_APP_ENV=public
 RUN npm run build
 
 FROM node:lts-alpine3.18

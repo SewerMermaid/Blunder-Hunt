@@ -420,9 +420,8 @@ export class AuthController {
         password: await bcrypt.hash(registerDto.password, 10),
         verified: !this.configService.get<boolean>("SMTP_HOST")
       });
-      if (this.configService.get("SMTP_HOST")) {
-        await this.mailService.sendEmailConfirmation(registerDto.email);
-      }
+
+      await this.mailService.sendEmailConfirmation(registerDto.email);
       this.authService.setLoginCookies(res, user);
 
       return {

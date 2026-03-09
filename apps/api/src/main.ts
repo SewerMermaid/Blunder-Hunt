@@ -88,6 +88,13 @@ async function bootstrap() {
   app.use(missingSitemapMiddleware);
   app.use(noIndexMiddleware);
 
+  server.use((req, res, next) => {
+    if (req.headers.accept?.includes('text/html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+    next();
+  });
+
   if (
     process.env.SSL_KEY_BASE64 &&
     process.env.SSL_KEY_BASE64.length > 0 &&

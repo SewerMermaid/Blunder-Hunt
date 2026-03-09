@@ -403,6 +403,14 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response
   ): Promise<ApiResponse<null>> {
+    if (!this.configService.get("SMTP_HOST")) {
+        res.status(503);
+        return {
+          status: ApiResponseOptions.Fail,
+          message: "Registration is currently disabled"
+        };
+    }
+    
     if (
       (await this.usersService.user({ email: registerDto.email })) ||
       (await this.usersService.user({ username: registerDto.username }))

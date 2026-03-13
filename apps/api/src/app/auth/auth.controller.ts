@@ -345,6 +345,14 @@ export class AuthController {
     const user = await this.usersService.user({ email: email.email });
     if (!user) res.redirect("/");
 
+    if (!user.verified) {
+      res.status(403);
+      return {
+        status: ApiResponseOptions.Fail,
+        message: "Please verify your email before logging in"
+      };
+    }
+
     this.authService.setLoginCookies(res, user);
 
     return res.redirect("/homepage");

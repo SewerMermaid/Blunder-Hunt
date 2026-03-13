@@ -16,11 +16,9 @@ export class MailConfig implements MailerOptionsFactory {
           pass: this.configService.get<string>("SMTP_PASSWORD")
         }
       },
-      /**
       defaults: {
         from: "Scholarsome <noreply@scholarsome.com>"
       }
-      */
     };
   }
 }

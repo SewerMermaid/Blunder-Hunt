@@ -20,20 +20,24 @@ export class MailService {
    */
   async sendEmailConfirmation(email: string): Promise<boolean> {
     if (
-      !this.configService.get<boolean>("SMTP_USERNAME") ||
-      !this.configService.get<boolean>("SMTP_PASSWORD")
-    ) return false;
+        !this.configService.get<boolean>("SMTP_USERNAME") ||
+        !this.configService.get<boolean>("SMTP_PASSWORD")
+      ) return false;
 
-    const token = this.jwtService.sign({ email });
+      try {
+        const token = this.jwtService.sign({ email });
 
-    await this.mailerService.sendMail({
-      to: email,
-      from: `noreply@${this.configService.get<string>("HOST")}`,
-      subject: "Confirm your email address",
-      text: `Hey there,\n\nWelcome to Scholarsome! We're glad to have you here. Before getting started, we need to confirm your email address.\n\nTo confirm your email, please click this link:\n\nhttp${this.configService.get<string>("SSL_KEY_PATH") ? "s" : ""}://${this.configService.get<string>("HOST")}/api/auth/verify/email/${token}`
-    });
+        await this.mailerService.sendMail({
+          to: email,
+          from: `noreply@${this.configService.get<string>("HOST")}`,
+          subject: "Confirm your email address",
+          text: `Hey there,\n\nWelcome! Before getting started, we need to confirm your email address.\n\nTo confirm your email, please click this link:\n\nhttp${this.configService.get<string>("SSL_KEY_BASE64") ? "s" : ""}://${this.configService.get<string>("HOST")}/api/auth/verify/email/${token}`
+        });
 
-    return true;
+        return true;
+      } catch (e) {
+        return false;
+      }
   }
 
   /**

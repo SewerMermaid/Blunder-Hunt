@@ -55,7 +55,7 @@ export class MailService {
 
     await this.mailerService.sendMail({
       to: email,
-      from: `noreply@${this.configService.get<string>("HOST")}`
+      from: `noreply@${this.configService.get<string>("HOST")}`,
       subject: "Reset your password",
       text: `Hey there,\n\nIf you did not request a password change, you can ignore this email.\n\nYou're receiving this because you requested a password reset. Follow the link below to choose a new password.\n\nThis link will expire in 10 minutes.\n\nhttp${this.configService.get<string>("SSL_KEY_BASE64") ? "s" : ""}://${this.configService.get<string>("HOST")}/api/auth/reset/password/verify/${token}`
     });

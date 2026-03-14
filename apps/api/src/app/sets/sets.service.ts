@@ -36,7 +36,7 @@ export class SetsService {
    * @returns Whether the set belongs to the user
    */
   public async verifySetOwnership(req: ExpressRequest, setId: string): Promise<boolean> {
-    let accessToken: { id: string; email: string; };
+    let accessToken: { id: string; email: string };
 
     if (req.cookies && req.cookies["access_token"]) {
       try {

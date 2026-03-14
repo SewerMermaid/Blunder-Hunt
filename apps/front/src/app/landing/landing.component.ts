@@ -7,6 +7,7 @@ import { faUpRightFromSquare, faArrowRight } from "@fortawesome/free-solid-svg-i
 import { Location } from "@angular/common";
 import { Meta, Title } from "@angular/platform-browser";
 import { SharedService } from "../shared/shared.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "scholarsome-landing",
@@ -21,7 +22,8 @@ export class LandingComponent implements OnInit {
     private readonly titleService: Title,
     private readonly metaService: Meta,
     public readonly modalService: ModalService,
-    public readonly sharedService: SharedService
+    public readonly sharedService: SharedService,
+    private readonly route: ActivatedRoute
   ) {
     this.titleService.setTitle("Studying done the correct way — Scholarsome");
     this.metaService.addTag({ name: "description", content: "Scholarsome is the way studying was meant to be. No monthly fees or upsells to get between you and your study tools. Just flashcards." });
@@ -47,7 +49,7 @@ export class LandingComponent implements OnInit {
       await this.router.navigate(["homepage"]);
     }
 
-    if (this.cookieService.get("resetPasswordToken")) {
+    if (this.route.snapshot.queryParamMap.get("resetPassword")) {
       this.modalService.modal.next("set-password-open");
     }
 

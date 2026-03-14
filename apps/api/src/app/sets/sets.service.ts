@@ -3,16 +3,19 @@ import { PrismaService } from "../providers/database/prisma/prisma.service";
 import { Prisma } from "@prisma/client";
 import { Set } from "@scholarsome/shared";
 import { Request as ExpressRequest } from "express";
-import jwt_decode from "jwt-decode";
+import * as jwt from "jsonwebtoken";
 import { UsersService } from "../users/users.service";
 import { StorageService } from "../providers/storage/storage.service";
+import { ConfigService } from "@nestjs/config";
+
 
 @Injectable()
 export class SetsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly usersService: UsersService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
+    private readonly configService: ConfigService
   ) {}
 
   /**
@@ -36,7 +39,14 @@ export class SetsService {
     let accessToken: { id: string; email: string; };
 
     if (req.cookies && req.cookies["access_token"]) {
-      accessToken = jwt_decode(req.cookies["access_token"]) as { id: string; email: string; };
+      try {
+        accessToken = jwt.verify(
+          req.cookies["access_token"],
+          this.configService.get<string>("JWT_SECRET")
+        ) as { id: string; email: string };
+      } catch (e) {
+        return false;
+      }
     } else {
       return false;
     }

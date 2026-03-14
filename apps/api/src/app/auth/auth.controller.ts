@@ -426,11 +426,19 @@ export class AuthController {
         username: registerDto.username,
         email: registerDto.email,
         password: await bcrypt.hash(registerDto.password, 10),
-        verified: !this.configService.get<boolean>("SMTP_HOST")
+        verified: false
       });
 
-      await this.mailService.sendEmailConfirmation(registerDto.email);
-      this.authService.setLoginCookies(res, user);
+      const emailSent = await this.mailService.sendEmailConfirmation(registerDto.email);
+
+      if (!emailSent) {
+        await this.usersService.deleteUser({ id: user.id });
+        res.status(503);
+        return {
+          status: ApiResponseOptions.Fail,
+          message: "Registration is currently disabled"
+        };
+      }
 
       return {
         status: ApiResponseOptions.Success,
@@ -490,6 +498,14 @@ export class AuthController {
       return {
         status: ApiResponseOptions.Error,
         message: "Error finding user"
+      };
+    }
+
+    if (!user.verified) {
+      res.status(403);
+      return {
+        status: ApiResponseOptions.Fail,
+        message: "Please verify your email before logging in"
       };
     }
 

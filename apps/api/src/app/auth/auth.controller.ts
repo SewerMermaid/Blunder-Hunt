@@ -111,6 +111,10 @@ export class AuthController {
     });
     if (!apiKey) throw new NotFoundException({ status: "fail", message: "API key was not found" });
 
+    if (apiKey.userId !== user.id) {
+      throw new UnauthorizedException({ status: "fail", message: "Invalid authentication to access the requested resource" });
+    }
+
     await this.prisma.apiKey.delete({
       where: {
         apiKey: deleteApiKeyDto.apiKey
@@ -198,7 +202,7 @@ export class AuthController {
       if (!decoded || !decoded.forPasswordReset) throw new UnauthorizedException({ status: "fail", message: "Invalid authentication to access the requested resource" });
 
       res.cookie("resetPasswordToken", "", {
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date()
       });
 
@@ -260,9 +264,10 @@ export class AuthController {
 
     if (decoded && decoded.forPasswordReset) {
       res.cookie("resetPasswordToken", params.token, {
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date(new Date().setMinutes(new Date().getMinutes() + 10))
       });
+      return res.redirect("/?resetPassword=true");
     }
 
     return res.redirect("/");
@@ -343,7 +348,7 @@ export class AuthController {
     }
 
     const user = await this.usersService.user({ email: email.email });
-    if (!user) res.redirect("/");
+    if (!user) return res.redirect("/");
 
     this.authService.setLoginCookies(res, user);
 

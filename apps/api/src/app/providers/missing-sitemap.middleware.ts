@@ -18,6 +18,7 @@ export function missingSitemapMiddleware(req: Request, res: Response, next: Next
       });
 
       res.end();
+      return;
     }
   }
 

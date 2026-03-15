@@ -29,14 +29,8 @@ export class TasksService {
 
     const date = new Date().toISOString();
 
-    if (
-      process.env.SSL_KEY_BASE64 &&
-      process.env.SSL_KEY_BASE64.length > 0 &&
-      process.env.SSL_CERT_BASE64 &&
-      process.env.SSL_CERT_BASE64.length > 0
-    ) {
-      htmlPrefix = "https";
-    } else htmlPrefix = "http";
+    const htmlPrefix = this.configService.get<string>("PROTOCOL");
+
 
     /*
     Generate the root sitemap.xml, that links to the others

@@ -31,7 +31,7 @@ export class MailService {
           to: email,
           from: `noreply@${this.configService.get<string>("HOST")}`,
           subject: "Confirm your email address",
-          text: `Hey there,\n\nWelcome! Before getting started, we need to confirm your email address.\n\nTo confirm your email, please click this link:\n\nhttp${this.configService.get<string>("SSL_KEY_BASE64") ? "s" : ""}://${this.configService.get<string>("HOST")}/api/auth/verify/email/${token}`
+          text: `Hey there,\n\nWelcome! Before getting started, we need to confirm your email address.\n\nTo confirm your email, please click this link:\n\n${this.configService.get<string>("PROTOCOL")}://${this.configService.get<string>("HOST")}/api/auth/verify/email/${token}`
         });
 
         return true;
@@ -61,7 +61,7 @@ export class MailService {
       to: email,
       from: `noreply@${this.configService.get<string>("HOST")}`,
       subject: "Reset your password",
-      text: `Hey there,\n\nIf you did not request a password change, you can ignore this email.\n\nYou're receiving this because you requested a password reset. Follow the link below to choose a new password.\n\nThis link will expire in 10 minutes.\n\nhttp${this.configService.get<string>("SSL_KEY_BASE64") ? "s" : ""}://${this.configService.get<string>("HOST")}/api/auth/reset/password/verify/${token}`
+      text: `Hey there,\n\nIf you did not request a password change, you can ignore this email.\n\nYou're receiving this because you requested a password reset. Follow the link below to choose a new password.\n\nThis link will expire in 10 minutes.\n\n${this.configService.get<string>("PROTOCOL")}://${this.configService.get<string>("HOST")}/api/auth/reset/password/verify/${token}`
     });
   }
 }

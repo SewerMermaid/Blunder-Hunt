@@ -25,8 +25,6 @@ export class TasksService {
     // sitemaps are only generated when NODE_ENV is set to public
     if (this.configService.get<string>("NODE_ENV") !== "public") return;
 
-    let htmlPrefix = "";
-
     const date = new Date().toISOString();
 
     const htmlPrefix = this.configService.get<string>("PROTOCOL");

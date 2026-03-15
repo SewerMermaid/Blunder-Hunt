@@ -39,7 +39,9 @@ export class CardsService {
 
         let decoded = Buffer.from(split[1], "base64");
 
-        let extension = "." + source.match(/^data:[a-z]+\/([a-z]+);base64,/)[1];
+        const extensionMatch = source.match(/^data:[a-z]+\/([a-z]+);base64,/);
+        if (!extensionMatch) continue;
+        let extension = "." + extensionMatch[1];
 
         if (
           split[0].includes("jpeg") ||

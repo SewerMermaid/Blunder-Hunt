@@ -33,7 +33,7 @@ async function bootstrap() {
     bufferLogs: process.env.NODE_ENV !== "development"
   });
 
-  app.enableCors({ origin: `https://${process.env.HOST}`, credentials: true });
+  app.enableCors({ origin: `${process.env.PROTOCOL}://${process.env.HOST}`, credentials: true });
 
   /**
    * unsafe-inline is required in style-src for Angular to work
